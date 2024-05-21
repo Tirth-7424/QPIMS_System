@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.guiprototype.ManagerReportController">
+   <children>
+      <AnchorPane prefHeight="690.0" prefWidth="560.0">
+         <children>
+            <Label text="Manager Report">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
+            <Button fx:id="primaryButton213" layoutY="454.0" onAction="#goBack" prefHeight="35.0" prefWidth="79.0" text="Go back" />
+            <TextArea layoutY="57.0" prefHeight="367.0" prefWidth="367.0" text="Bar chart illustrating distribution of jobs across &#10;property types goes here" />
+            <Text layoutX="388.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum charge: " />
+            <Text layoutX="388.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum charge: " />
+            <Text layoutX="388.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average charge: " />
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

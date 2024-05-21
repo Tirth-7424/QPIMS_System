@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="700.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.guiprototype.CreateJobController">
+    <children>
+      <AnchorPane prefHeight="686.0" prefWidth="460.0">
+         <children>
+              <Label text="Create Job">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+              <Button fx:id="secondaryButton" layoutY="340.0" onAction="#goBack" text="Cancel" />
+            <Text layoutX="2.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Property Id*" />
+            <TextField layoutX="138.0" layoutY="40.0" prefHeight="26.0" prefWidth="191.0" />
+            <Text layoutX="3.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Starting date*" />
+            <TextField layoutX="138.0" layoutY="76.0" prefHeight="26.0" prefWidth="191.0" />
+            <Text layoutX="5.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job type*" />
+            <TextField layoutX="138.0" layoutY="118.0" prefHeight="26.0" prefWidth="191.0" />
+            <Button fx:id="secondaryButton1" layoutX="251.0" layoutY="340.0" onAction="#goBack" text="Create property" />
+            <TextField layoutX="138.0" layoutY="158.0" prefHeight="26.0" prefWidth="191.0" />
+            <TextField layoutX="138.0" layoutY="238.0" prefHeight="26.0" prefWidth="191.0" />
+            <Text layoutX="5.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job status*" />
+            <Text layoutX="5.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service staff*" />
+            <TextField layoutX="138.0" layoutY="278.0" prefHeight="26.0" prefWidth="191.0" />
+            <Text layoutX="5.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Completion date" />
+            <TextField layoutX="138.0" layoutY="198.0" prefHeight="26.0" prefWidth="191.0" />
+            <Text layoutX="5.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charge*" />
+         </children>
+      </AnchorPane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

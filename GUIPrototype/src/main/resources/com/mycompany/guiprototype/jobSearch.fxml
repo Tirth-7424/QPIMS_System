@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.guiprototype.JobSearchController">
+   <children>
+      <AnchorPane>
+         <children>
+            <Button fx:id="primaryButton" layoutX="277.0" layoutY="71.0" prefHeight="26.0" prefWidth="128.0" text="Search" />
+            <TextArea layoutY="121.0" prefHeight="494.0" prefWidth="560.0" text="&#10;&#10;&#10;&#10;&#10;End of results" />
+            <Button fx:id="primaryButton1" layoutY="633.0" onAction="#goBack" text="Back" />
+            <TextField layoutY="71.0" prefHeight="26.0" prefWidth="128.0" promptText="Property id" />
+            <Button fx:id="primaryButton2" layoutX="477.0" layoutY="35.0" onAction="#switchToCreateJob" prefHeight="26.0" prefWidth="82.0" text="New" />
+            <TextField layoutX="137.0" layoutY="71.0" prefHeight="26.0" prefWidth="128.0" promptText="Service staff" />
+            <Button fx:id="updateButton" disable="true" layoutX="477.0" layoutY="71.0" onAction="#switchToUpdateJob" prefHeight="26.0" prefWidth="82.0" text="Update" />
+            <Button fx:id="firstResultButton" layoutY="121.0" onAction="#underlineFirst" prefHeight="26.0" prefWidth="560.0" text=" 001 | 32 Emu St, Georgville, 4502, QLD,  House,3, 1, 2, 00001" />
+            <Button fx:id="secondResultButton" layoutY="151.0" onAction="#underlineSecond" prefHeight="26.0" prefWidth="560.0" text="002 |123 Berlin st, Logan Brisbane, QLD, House, 2922, 5, 2, 4, 00002" />
+            <Button fx:id="thirdResultButton" layoutY="181.0" onAction="#underlineThird" prefHeight="26.0" prefWidth="560.0" text="003 | 14 Naples st, Emu Park, 4700, QLD, House, 2, 1, 1 00003" />
+            <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job Search">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <TextField layoutY="41.0" prefHeight="26.0" prefWidth="128.0" promptText="Job id" />
+            <TextField layoutX="137.0" layoutY="41.0" prefHeight="26.0" prefWidth="128.0" promptText="Date" />
+            <TextField layoutX="277.0" layoutY="41.0" prefHeight="26.0" prefWidth="128.0" promptText="Customer id" />
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
