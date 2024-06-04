@@ -17,8 +17,8 @@ public class Job {
         Plumbing,
         Structural,
         Gardening
-        
     }
+    
     public enum JobStatus {
         Planned,
         Ongoing,
@@ -76,5 +76,4 @@ public class Job {
     public String getJobStatus() {
         return jobStatus.toString();
     }
-  
 }
