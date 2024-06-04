@@ -93,6 +93,15 @@ public class Property {
     public String getPropertyType() {
         return propertyType.toString();
     }
+    public int getParkingSpaces(){
+    return parkingSpaces;
+    }
+    public LocalDate getBuiltDate(){
+    return builtDate;
+    }
+    public int getCustomerID(){
+    return customerId;
+    }
     
     
 

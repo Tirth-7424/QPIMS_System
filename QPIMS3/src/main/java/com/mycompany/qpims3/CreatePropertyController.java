@@ -57,6 +57,8 @@ public class CreatePropertyController{
         System.out.println(stateChoiceBox.getValue());
     }
 
+    
+    
     @FXML
     private void createProperty() {
         printChoice();

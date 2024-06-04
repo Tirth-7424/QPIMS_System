@@ -31,6 +31,7 @@ public class PropertyModel {
    private PreparedStatement selectPropertyByID = null;
    private PreparedStatement selectPropertyByType = null;
    private PreparedStatement updateProperty = null;
+   private PreparedStatement updatePropertyNoId = null;
    private PreparedStatement CreateProperty = null;
    private PreparedStatement CreatePropertyNoId = null;
    CustomerModel cm=new CustomerModel();
@@ -58,7 +59,7 @@ public class PropertyModel {
             "SELECT * FROM property WHERE State = ?" );
          
          selectPropertyByID = connection.prepareStatement(
-            "SELECT * FROM property WHERE ID = ?" );
+            "SELECT * FROM property WHERE PropertyID = ?" );
          
          selectPropertyByType = connection.prepareStatement(
             "SELECT * FROM property WHERE PropertyType = ?" );
@@ -76,10 +77,14 @@ public class PropertyModel {
             "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )" );
          
          updateProperty = connection.prepareStatement(
-        "UPDATE proeprty " +
+        "UPDATE property " +
         "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ?" +
         "WHERE PropertyID = ?" );
-
+         
+          updatePropertyNoId = connection.prepareStatement(
+        "UPDATE property " +
+        "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ?" +
+        "WHERE PropertyID = ?" );
       } // end try
       catch ( SQLException sqlException )
       {
@@ -183,18 +188,18 @@ public class PropertyModel {
          while ( resultSet.next() )
          {
           results.add( new Property(
-               resultSet.getInt( "Id" ),
-               resultSet.getInt( "streetNumber" ),
-               resultSet.getString( "streetName" ),
+               resultSet.getInt( "PropertyID" ),
+               resultSet.getInt( "StreetNumber" ),
+               resultSet.getString( "StreetName" ),
                resultSet.getString( "Suburb" ),
-               resultSet.getString( "state" ),
-               resultSet.getInt( "bedroomCount" ),
-               resultSet.getInt( "bathroomCount" ),
-               resultSet.getInt( "parkingSpaces" ),
+               resultSet.getString( "State" ),
+               resultSet.getInt( "Bedrooms" ),
+               resultSet.getInt( "Bathrooms" ),
+               resultSet.getInt( "CarParks" ),
                resultSet.getString( "PropertyType" ),
-               resultSet.getString( "ManagingAgent" ),
-               resultSet.getString( "builtDate" ),
-               resultSet.getInt( "CustomerId" )
+               resultSet.getString( "PropertyManager" ),
+               resultSet.getString( "BuiltYear" ),
+               resultSet.getInt( "Customer_CustomerID" )
                 ) );
          } // end while
       } // end try
@@ -218,6 +223,170 @@ public class PropertyModel {
       return results;
    } // end method getByName
    // add an entry
+    
+     public int updateProperty(int PropertyId, String StreetName, int StreetNumber, String Suburb, String State, String BuiltYear, int Bathrooms, int Bedrooms, int CarParks, String PropertyManager, String PropertyType, int Customer_CustomerID )
+   {
+      int result = 0;
+
+      // set parameters, then execute insertNewPatient
+      try
+      {
+         updateProperty.setInt(12, PropertyId);
+         updateProperty.setString( 1, StreetName );
+         updateProperty.setInt( 2, StreetNumber );
+         updateProperty.setString( 3, Suburb );
+         updateProperty.setString( 4, State );
+         updateProperty.setString( 5, BuiltYear );
+         updateProperty.setInt( 6, Bathrooms );
+         updateProperty.setInt( 7, Bedrooms );
+         updateProperty.setInt( 8, CarParks );
+         updateProperty.setString( 9, PropertyManager );
+         updateProperty.setString( 10, PropertyType);
+         updateProperty.setInt( 11, Customer_CustomerID);
+         updateProperty.setInt(12, PropertyId);
+
+         // insert the new entry; returns # of rows updated
+         result = updateProperty.executeUpdate();
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+         close();
+      } // end catch
+
+      return result;
+   } // end method addPatient
+     
+     public int updatePropertyNoId(int PropertyId, String StreetName, int StreetNumber, String Suburb, String State, String BuiltYear, int Bathrooms, int Bedrooms, int CarParks, String PropertyManager, String PropertyType )
+   {
+      int result = 0;
+
+      // set parameters, then execute insertNewPatient
+      try
+      {
+         updateProperty.setInt(12, PropertyId);
+         updatePropertyNoId.setString( 1, StreetName );
+         updatePropertyNoId.setInt( 2, StreetNumber );
+         updatePropertyNoId.setString( 3, Suburb );
+         updatePropertyNoId.setString( 4, State );
+         updatePropertyNoId.setString( 5, BuiltYear );
+         updatePropertyNoId.setInt( 6, Bathrooms );
+         updatePropertyNoId.setInt( 7, Bedrooms );
+         updatePropertyNoId.setInt( 8, CarParks );
+         updatePropertyNoId.setString( 9, PropertyManager );
+         updatePropertyNoId.setString( 10, PropertyType);
+         updatePropertyNoId.setNull( 11, 0);
+         
+         // insert the new entry; returns # of rows updated
+         result = updatePropertyNoId.executeUpdate();
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+         close();
+      } // end catch
+      
+      return result;
+   } // end method 
+     
+   public List< Property > searchProperties(String StreetName)
+   {
+      List< Property > results = new ArrayList< Property >();
+      ResultSet resultSet = null;
+
+      try
+      {
+          selectPropertyByStreetName.setString(1, StreetName );
+         // executeQuery returns ResultSet containing matching entries
+         resultSet = selectPropertyByStreetName.executeQuery();
+         results = new ArrayList< Property>();
+
+         while ( resultSet.next() )
+         {
+            results.add( new Property(
+              resultSet.getInt( "PropertyID" ),
+               resultSet.getInt( "StreetNumber" ),
+               resultSet.getString( "StreetName" ),
+               resultSet.getString( "Suburb" ),
+               resultSet.getString( "State" ),
+               resultSet.getInt( "Bedrooms" ),
+               resultSet.getInt( "Bathrooms" ),
+               resultSet.getInt( "CarParks" ),
+               resultSet.getString( "PropertyType" ),
+               resultSet.getString( "PropertyManager" ),
+               resultSet.getString( "BuiltYear" ),
+               resultSet.getInt( "Customer_CustomerID" )
+                ) );
+         } // end while
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+      } // end catch
+      finally
+      {
+         try
+         {
+            resultSet.close();
+         } // end try
+         catch ( SQLException sqlException )
+         {
+            sqlException.printStackTrace();
+            close();
+         } // end catch
+      }
+      
+      return results;
+   }// end finally
+      
+    public List< Property > getAllProperties()
+   {
+      List< Property > results = new ArrayList< Property >();
+      ResultSet resultSet = null;
+
+      try
+      {
+         // executeQuery returns ResultSet containing matching entries
+         resultSet = selectAllProperty.executeQuery();
+         results = new ArrayList< Property >();
+
+         while ( resultSet.next() )
+         {
+            results.add( new Property(
+              resultSet.getInt( "PropertyID" ),
+               resultSet.getInt( "StreetNumber" ),
+               resultSet.getString( "StreetName" ),
+               resultSet.getString( "Suburb" ),
+               resultSet.getString( "State" ),
+               resultSet.getInt( "Bedrooms" ),
+               resultSet.getInt( "Bathrooms" ),
+               resultSet.getInt( "CarParks" ),
+               resultSet.getString( "PropertyType" ),
+               resultSet.getString( "PropertyManager" ),
+               resultSet.getString( "BuiltYear" ),
+               resultSet.getInt( "Customer_CustomerID" )
+                ) );
+         } // end while
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+      } // end catch
+      finally
+      {
+         try
+         {
+            resultSet.close();
+         } // end try
+         catch ( SQLException sqlException )
+         {
+            sqlException.printStackTrace();
+            close();
+         } // end catch
+      } // end finally
+      return results;
+   }
+    
     
    public boolean findCustomer(int CID){
    List< Customer > results = null;

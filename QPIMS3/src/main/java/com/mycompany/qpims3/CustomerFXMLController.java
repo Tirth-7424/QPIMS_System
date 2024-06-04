@@ -252,9 +252,7 @@ public class CustomerFXMLController implements Initializable {
     @FXML
     private void updateCustomerSwitch(ActionEvent event) throws IOException {
         customerSearchPane.setVisible(false);
-        updateCustomerPane.setVisible(true);
-        
-        
+        updateCustomerPane.setVisible(true);    
     }
     
     @FXML
