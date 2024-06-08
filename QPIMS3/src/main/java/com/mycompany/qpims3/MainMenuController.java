@@ -14,13 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.scene.control.Button;
+
 /**
  * FXML Controller class
  *
  * @author tirth
  */
 public class MainMenuController implements Initializable {
-
 
     @FXML
     private Button primaryButton21;
@@ -34,14 +34,15 @@ public class MainMenuController implements Initializable {
     private Button primaryButton21211;
     @FXML
     private Button primaryButton212111;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     @FXML
     private void switchToCustomerSearch(ActionEvent event) {
         try {
@@ -76,6 +77,11 @@ public class MainMenuController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @FXML
+    private void switchToAbout(ActionEvent event) throws IOException {
+        App.setRoot("About");
     }
 
     @FXML
