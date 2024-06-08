@@ -205,20 +205,81 @@ public class JobModel {
 
          results = new ArrayList<Job>();
 
-         while ( resultSet.next() )
+          while ( resultSet.next() )
          {
-          results.add( new Job(
-               resultSet.getInt( "JobID" ),
-               resultSet.getInt( "property_PropertyID" ),
-               resultSet.getString( "JobStartDate" ),
-               resultSet.getString( "JobcompletionDate" ),
-               resultSet.getDouble("JobCost"),
-               resultSet.getString("JobServiceMan"),
-               resultSet.getString("JobDescription"),
-               resultSet.getString("JobType"),
-               resultSet.getString("JobStatus")  
-                ) );
-         } // end while
+            int jobId = resultSet.getInt( "JobID" );
+            int propertyId =   resultSet.getInt( "property_PropertyID" );
+            String jobStartDate =   resultSet.getString( "JobStartDate" );
+            String jobCompletionDate =   resultSet.getString("JobcompletionDate" );
+            double jobCost =   resultSet.getDouble("JobCost");
+            String jobServiceMan =   resultSet.getString("JobServiceMan");
+            String jobDescription =   resultSet.getString("JobDescription");
+            String jobType =   resultSet.getString("JobType");
+            String jobStatus =   resultSet.getString("JobStatus");
+            
+            if (jobCompletionDate == null){
+                System.out.println("Hi");
+             results.add( new Job( jobId, propertyId, jobStartDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );   
+            }
+            else{
+          results.add( new Job( jobId, propertyId, jobStartDate, jobCompletionDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );
+            }
+            } // end while
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+      } // end catch
+      finally
+      {
+         try
+         {
+            resultSet.close();
+         } // end try
+         catch ( SQLException sqlException )
+         {
+            sqlException.printStackTrace();
+            close();
+         } // end catch
+      } // end finally
+
+      return results;
+   }
+   
+   
+   public List< Job > getAllJobs()
+   {
+      List< Job > results = null;
+      ResultSet resultSet = null;
+
+      try
+      {
+
+         // executeQuery returns ResultSet containing matching entries
+         resultSet = selectAllJobs.executeQuery();
+
+         results = new ArrayList<Job>();
+
+          while ( resultSet.next() )
+         {
+            int jobId = resultSet.getInt( "JobID" );
+            int propertyId =   resultSet.getInt( "property_PropertyID" );
+            String jobStartDate =   resultSet.getString( "JobStartDate" );
+            String jobCompletionDate =   resultSet.getString("JobcompletionDate" );
+            double jobCost =   resultSet.getDouble("JobCost");
+            String jobServiceMan =   resultSet.getString("JobServiceMan");
+            String jobDescription =   resultSet.getString("JobDescription");
+            String jobType =   resultSet.getString("JobType");
+            String jobStatus =   resultSet.getString("JobStatus");
+            
+            if (jobCompletionDate == null){
+                System.out.println("Hi");
+             results.add( new Job( jobId, propertyId, jobStartDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );   
+            }
+            else{
+          results.add( new Job( jobId, propertyId, jobStartDate, jobCompletionDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );
+            }
+            } // end while
       } // end try
       catch ( SQLException sqlException )
       {

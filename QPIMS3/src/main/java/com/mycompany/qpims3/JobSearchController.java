@@ -17,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListCell;
@@ -53,6 +52,8 @@ public class JobSearchController implements Initializable {
     private ListView<Job> listview;
     @FXML
     private Button searchByJobIdButton;
+    @FXML
+    private Button showallJobsbtn;
     @FXML
     private TextField bookingDatetxt;
     @FXML
@@ -160,6 +161,88 @@ public class JobSearchController implements Initializable {
      }
     }
       }
+      
+      
+      
+    @FXML
+      private void searchJobByPropertyId(ActionEvent event){
+       
+       updateBookingButton.setDisable(true);
+      
+        String foundID= searchPropertyIdField.getText();
+        
+        if(foundID.isEmpty()){
+        displayMessage("Please Enter a ID!!");
+        }
+        else{
+            
+     if(isInteger(foundID)){
+       int id = Integer.parseInt(foundID);
+        results = jm.getJobsByPropertyID(id);
+
+        numberOfEntries = results.size();
+      if ( numberOfEntries != 0 ) {
+       listview.setItems(JobList); // bind to contactsList
+       listview.setCellFactory(param -> new JobListID());   
+       getJobsByPropertyID(id);   
+       listview.getSelectionModel().selectedItemProperty().addListener(
+        (var observableValue, var oldValue, var newValue) -> {
+        if (newValue != null) {
+            
+            updateJob = newValue;
+           setfields(updateJob);
+            updateBookingButton.setDisable(false);
+              
+    }
+        }
+       );
+      }
+      else{
+        displayMessage("Not found");
+        searchJobIdField.clear();
+        searchPropertyIdField.clear();
+        
+      }
+     }
+     else{
+     displayMessage("ID should be Integer.");
+     searchJobIdField.clear();
+     searchPropertyIdField.clear();
+     }
+    }
+      }
+      
+      
+    @FXML
+      private void searchAllJobs(ActionEvent event){
+       
+       updateBookingButton.setDisable(true);
+        results = jm.getAllJobs();
+
+        numberOfEntries = results.size();
+      if ( numberOfEntries != 0 ) {
+       listview.setItems(JobList); // bind to contactsList
+       listview.setCellFactory(param -> new JobListID());   
+       getAllJobs();   
+       listview.getSelectionModel().selectedItemProperty().addListener(
+        (var observableValue, var oldValue, var newValue) -> {
+        if (newValue != null) {
+            
+            updateJob = newValue;
+           setfields(updateJob);
+            updateBookingButton.setDisable(false);
+              
+    }
+        }
+       );
+      }
+      else{
+        displayMessage("Not found");
+        searchJobIdField.clear();
+        searchPropertyIdField.clear();
+        
+      }
+      }
     
     
     @FXML
@@ -228,9 +311,21 @@ public class JobSearchController implements Initializable {
 
     }
     
+    public void getAllJobs(){
+   
+   JobList.setAll(jm.getAllJobs());
+   
+   }
+    
     public void getJobsByID(int a){
    
    JobList.setAll(jm.getJobsByJobID(a));
+   
+   }
+    
+   public void getJobsByPropertyID(int a){
+   
+   JobList.setAll(jm.getJobsByPropertyID(a));
    
    }
     

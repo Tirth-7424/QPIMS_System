@@ -16,7 +16,7 @@
    <children>
       <AnchorPane fx:id="searchJobPane" translateY="300.0">
          <children>
-            <Button fx:id="searchByPropertyIdButton" layoutX="142.0" layoutY="71.0" prefHeight="26.0" prefWidth="145.0" text="Search By Property ID" />
+            <Button fx:id="searchByPropertyIdButton" layoutX="142.0" layoutY="71.0" onAction="#searchJobByPropertyId" prefHeight="26.0" prefWidth="145.0" text="Search By Property ID" />
             <Button fx:id="Backbtn" layoutY="633.0" onAction="#goBack" text="Back" />
             <TextField fx:id="searchJobIdField" layoutY="41.0" prefHeight="26.0" prefWidth="128.0" promptText="Job Id" />
             <Button fx:id="createJobButton" layoutX="431.0" layoutY="35.0" onAction="#switchToCreateJob" prefHeight="26.0" prefWidth="128.0" text="New Booking" />
@@ -29,6 +29,7 @@
             <TextField fx:id="searchPropertyIdField" layoutY="71.0" prefHeight="26.0" prefWidth="128.0" promptText="Property Id" />
             <ListView fx:id="listview" layoutX="1.0" layoutY="114.0" prefHeight="502.0" prefWidth="560.0" />
             <Button fx:id="searchByJobIdButton" layoutX="142.0" layoutY="41.0" mnemonicParsing="false" onAction="#searchJobByJobId" prefHeight="26.0" prefWidth="146.0" text="Search By Job ID" />
+            <Button fx:id="showallJobsbtn" layoutX="297.0" layoutY="42.0" mnemonicParsing="false" onAction="#searchAllJobs" prefHeight="25.0" prefWidth="121.0" text="Show all Jobs" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="updateJobPane" prefHeight="686.0" prefWidth="460.0" translateY="-380.0" visible="false">
