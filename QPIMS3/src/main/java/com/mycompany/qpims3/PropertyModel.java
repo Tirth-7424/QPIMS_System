@@ -76,15 +76,17 @@ public class PropertyModel {
             "( StreetName, StreetNumber, Suburb, State, BuiltYear, Bathrooms, Bedrooms, CarParks, PropertyManager, PropertyType, Customer_CustomerID) " +
             "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )" );
          
-         updateProperty = connection.prepareStatement(
-        "UPDATE property " +
-        "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ?" +
-        "WHERE PropertyID = ?" );
+ updateProperty = connection.prepareStatement(
+    "UPDATE property " +
+    "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ? " + // Notice the space before WHERE
+    "WHERE PropertyID = ?" );
+
          
-          updatePropertyNoId = connection.prepareStatement(
-        "UPDATE property " +
-        "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ?" +
-        "WHERE PropertyID = ?" );
+ updatePropertyNoId = connection.prepareStatement(
+    "UPDATE property " +
+    "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ? " + // Notice the space before WHERE
+    "WHERE PropertyID = ?" );
+
       } // end try
       catch ( SQLException sqlException )
       {
@@ -243,7 +245,6 @@ public class PropertyModel {
          updateProperty.setString( 9, PropertyManager );
          updateProperty.setString( 10, PropertyType);
          updateProperty.setInt( 11, Customer_CustomerID);
-         updateProperty.setInt(12, PropertyId);
 
          // insert the new entry; returns # of rows updated
          result = updateProperty.executeUpdate();
@@ -264,18 +265,18 @@ public class PropertyModel {
       // set parameters, then execute insertNewPatient
       try
       {
-         updateProperty.setInt(12, PropertyId);
-         updatePropertyNoId.setString( 1, StreetName );
-         updatePropertyNoId.setInt( 2, StreetNumber );
-         updatePropertyNoId.setString( 3, Suburb );
-         updatePropertyNoId.setString( 4, State );
-         updatePropertyNoId.setString( 5, BuiltYear );
-         updatePropertyNoId.setInt( 6, Bathrooms );
-         updatePropertyNoId.setInt( 7, Bedrooms );
-         updatePropertyNoId.setInt( 8, CarParks );
-         updatePropertyNoId.setString( 9, PropertyManager );
-         updatePropertyNoId.setString( 10, PropertyType);
-         updatePropertyNoId.setNull( 11, 0);
+          updatePropertyNoId.setString(1, StreetName);
+        updatePropertyNoId.setInt(2, StreetNumber);
+        updatePropertyNoId.setString(3, Suburb);
+        updatePropertyNoId.setString(4, State);
+        updatePropertyNoId.setString(5, BuiltYear);
+        updatePropertyNoId.setInt(6, Bathrooms);
+        updatePropertyNoId.setInt(7, Bedrooms);
+        updatePropertyNoId.setInt(8, CarParks);
+        updatePropertyNoId.setString(9, PropertyManager);
+        updatePropertyNoId.setString(10, PropertyType);
+        updatePropertyNoId.setNull(11, java.sql.Types.INTEGER); // Assuming Customer_CustomerID is an integer
+        updatePropertyNoId.setInt(12, PropertyId);
          
          // insert the new entry; returns # of rows updated
          result = updatePropertyNoId.executeUpdate();

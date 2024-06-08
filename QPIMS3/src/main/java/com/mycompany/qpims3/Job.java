@@ -1,7 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.mycompany.qpims3;
-
 import java.time.LocalDate;
-
+/**
+ *
+ * @author tirth
+ */
 public class Job {
     int jobId;
     int propertyId;
@@ -38,7 +44,19 @@ public class Job {
         this.serviceStaffName = serviceStaffName;
         this.description = description;
         this.jobType = JobType.valueOf(jobType);
-        this.jobStatus = JobStatus.valueOf(jobType);
+        this.jobStatus = JobStatus.valueOf(jobStatus);
+    }
+    
+    public Job(int jobId, int propertyId, String bookingDate, double charge, String serviceStaffName, String description, String jobType, String jobStatus){
+        this.jobId = jobId;
+        this.propertyId = propertyId;
+        this.bookingDate = LocalDate.parse(bookingDate);
+        this.completionDate = null;
+        this.charge = charge;
+        this.serviceStaffName = serviceStaffName;
+        this.description = description;
+        this.jobType = JobType.valueOf(jobType);
+        this.jobStatus = JobStatus.valueOf(jobStatus);
     }
 
     public int getJobId() {

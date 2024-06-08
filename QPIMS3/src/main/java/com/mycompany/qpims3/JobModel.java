@@ -4,14 +4,255 @@
  */
 package com.mycompany.qpims3;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
- * @author llama
+ * @author tirth
  */
 public class JobModel {
+
+    private static final String URL = "jdbc:mysql://localhost/qpims";
+
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "Tirth"; //your own password to Root account of MySQL
+
+    private Connection connection = null; // manages connection
+    private PreparedStatement selectAllJobs = null;
+    private PreparedStatement selectJobByJobId = null;
+    private PreparedStatement selectJobByPropertyId = null;
+    private PreparedStatement updateJob = null;
+    private PreparedStatement CreateJob = null;
+
+    CustomerModel cm = new CustomerModel();
+    PropertyModel pm = new PropertyModel();
+
+    public JobModel() {
+        try {
+            connection
+                    = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            // create query that selects all entries in the table
+            selectAllJobs
+                    = connection.prepareStatement("SELECT * FROM repairjob");
+
+            // create query that selects entries with a specific name
+            selectJobByJobId = connection.prepareStatement(
+                    "SELECT * FROM repairjob WHERE JobID = ?");
+            // create query that selects entirs with a specific id
+            selectJobByPropertyId = connection.prepareStatement(
+                    "SELECT * FROM repairjob WHERE property_PropertyID = ?");
+            // create insert that adds a new entry into the database
+            
+            CreateJob = connection.prepareStatement(
+                    "INSERT INTO repairjob "
+                    + "( JobDescription, JobStartDate, JobcompletionDate, JobCost, JobServiceMan, JobType, JobStatus, property_PropertyID) "
+                    + "VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )");
+
+            updateJob = connection.prepareStatement(
+    "UPDATE repairjob " +
+    "SET JobDescription = ?, JobStartDate = ?, JobcompletionDate = ?, JobCost = ?, JobServiceMan = ?, JobType = ?, JobStatus = ?, property_PropertyID = ? " +
+    "WHERE JobID = ?"
+);
+
+
+        } // end try
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            System.exit(1);
+        } // end catch
+    } // end Property constructor
+
+    public void close() {
+        try {
+            connection.close();
+        } // end try
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } // end catch
+    } // end method close
     
-    public JobModel(){
+    public int addJob( String JobDescription, String JobStartDate, String JobcompletionDate, double JobCost, String JobServiceMan, String JobType, String JobStatus, int property_PropertyID )
+   {
+      int result = 0;
+
+      // set parameters, then execute insertNewPatient
+      try
+      {
+         CreateJob.setString( 1, JobDescription );
+         CreateJob.setString( 2, JobStartDate);
+         CreateJob.setString( 3, JobcompletionDate);
+         CreateJob.setDouble(4, JobCost);
+         CreateJob.setString(5, JobServiceMan);
+         CreateJob.setString(6, JobType);
+         CreateJob.setString(7, JobStatus);
+         CreateJob.setInt(8, property_PropertyID);
         
-    }
+         // insert the new entry; returns # of rows updated
+         result = CreateJob.executeUpdate();
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+         close();
+      } // end catch
+       
+      return result;
+   } // end method
+   
+    public int updateJob( String JobDescription, String JobStartDate, String JobcompletionDate, double JobCost, String JobServiceMan, String JobType, String JobStatus, int property_PropertyID, int JobId )
+   {
+      int result = 0;
+      
+
+      // set parameters, then execute insertNewPatient
+      try
+      {
+         updateJob.setString( 1, JobDescription);
+         updateJob.setString( 2, JobStartDate);
+         updateJob.setString( 3, JobcompletionDate);
+         updateJob.setDouble(4, JobCost);
+         updateJob.setString(5, JobServiceMan);
+         updateJob.setString(6, JobType);
+         updateJob.setString(7, JobStatus);
+         updateJob.setInt(8, property_PropertyID);
+         updateJob.setInt(9, JobId);
+         // insert the new entry; returns # of rows updated
+         result = updateJob.executeUpdate();
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+         close();
+      } // end catch
+       
+      return result;
+   } // end method
+    
+     public List< Job > getJobsByJobID( int id )
+   {
+      List< Job > results = null;
+      ResultSet resultSet = null;
+
+      try
+      {
+         selectJobByJobId.setInt( 1, id ); // specify id
+
+         // executeQuery returns ResultSet containing matching entries
+         resultSet = selectJobByJobId.executeQuery();
+
+         results = new ArrayList<Job>();
+        
+         while ( resultSet.next() )
+         {
+            int jobId = resultSet.getInt( "JobID" );
+            int propertyId =   resultSet.getInt( "property_PropertyID" );
+            String jobStartDate =   resultSet.getString( "JobStartDate" );
+            String jobCompletionDate =   resultSet.getString("JobcompletionDate" );
+            double jobCost =   resultSet.getDouble("JobCost");
+            String jobServiceMan =   resultSet.getString("JobServiceMan");
+            String jobDescription =   resultSet.getString("JobDescription");
+            String jobType =   resultSet.getString("JobType");
+            String jobStatus =   resultSet.getString("JobStatus");
+            
+            if (jobCompletionDate == null){
+                System.out.println("Hi");
+             results.add( new Job( jobId, propertyId, jobStartDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );   
+            }
+            else{
+          results.add( new Job( jobId, propertyId, jobStartDate, jobCompletionDate, jobCost, jobServiceMan, jobDescription, jobType, jobStatus ) );
+            }
+            } // end while
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+      } // end catch
+      finally
+      {
+         try
+         {
+            resultSet.close();
+         } // end try
+         catch ( SQLException sqlException )
+         {
+            sqlException.printStackTrace();
+            close();
+         } // end catch
+      } // end finally
+
+      return results;
+   } // end method getByName
+   // add an entry
+   
+   public List< Job > getJobsByPropertyID( int id )
+   {
+      List< Job > results = null;
+      ResultSet resultSet = null;
+
+      try
+      {
+         selectJobByPropertyId.setInt( 1, id ); // specify id
+
+         // executeQuery returns ResultSet containing matching entries
+         resultSet = selectJobByPropertyId.executeQuery();
+
+         results = new ArrayList<Job>();
+
+         while ( resultSet.next() )
+         {
+          results.add( new Job(
+               resultSet.getInt( "JobID" ),
+               resultSet.getInt( "property_PropertyID" ),
+               resultSet.getString( "JobStartDate" ),
+               resultSet.getString( "JobcompletionDate" ),
+               resultSet.getDouble("JobCost"),
+               resultSet.getString("JobServiceMan"),
+               resultSet.getString("JobDescription"),
+               resultSet.getString("JobType"),
+               resultSet.getString("JobStatus")  
+                ) );
+         } // end while
+      } // end try
+      catch ( SQLException sqlException )
+      {
+         sqlException.printStackTrace();
+      } // end catch
+      finally
+      {
+         try
+         {
+            resultSet.close();
+         } // end try
+         catch ( SQLException sqlException )
+         {
+            sqlException.printStackTrace();
+            close();
+         } // end catch
+      } // end finally
+
+      return results;
+   }
+   
+    
+      public boolean findProperty(int PID){
+   List< Property > results = null;
+   boolean propertyfound = false;
+   results = pm.getAllProperties();
+   
+   for(int i = 0; i < results.size(); i++ ){
+   if(PID == results.get(i).getId()){
+    propertyfound = true;
+   }
+   
+   }
+   return propertyfound;
+   }
     
 }

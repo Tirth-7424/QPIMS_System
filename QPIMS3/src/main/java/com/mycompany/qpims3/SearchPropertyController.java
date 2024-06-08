@@ -20,13 +20,13 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+
 /**
  * FXML Controller class
  *
  * @author tirth
  */
 public class SearchPropertyController implements Initializable {
-
 
     @FXML
     private Button SearchByIDbtn;
@@ -50,7 +50,7 @@ public class SearchPropertyController implements Initializable {
     private Button SearchByAddbtn;
     @FXML
     private TextField PropertyIDtxt;
-     @FXML
+    @FXML
     private Button secondaryButton;
     @FXML
     private TextField streetNumberField;
@@ -83,115 +83,110 @@ public class SearchPropertyController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
-     PropertyModel model=new PropertyModel();
-     private final ObservableList<Property> PropertyList =
-	      FXCollections.observableArrayList();
-     List< Property > results;
-     List<Property> allProperties;
-     Property updateProperty;
-     int numberOfEntries;
+
+    PropertyModel model = new PropertyModel();
+    private final ObservableList<Property> PropertyList
+            = FXCollections.observableArrayList();
+    List< Property> results;
+    List<Property> allProperties;
+    Property updateProperty;
+    int numberOfEntries;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         propertyTypeChoiceBox.getItems().setAll(Property.PropertyType.values());
-        
-        
+
         stateChoiceBox.getItems().setAll(Property.State.values());
-        
-    }    
+
+    }
+
     @FXML
     private void goBack() throws IOException {
         App.setRoot("MainMenuFXML");
     }
-@FXML
+
+    @FXML
     private void CreateProperty() throws IOException {
         App.setRoot("PropertyCreateFXML");
     }
-    
-@FXML
-      private void FindPropertyByID(ActionEvent event){
-       StreetNumbertxt.clear();
-       StreetNametxt.clear();
-       Suburbtxt.clear();
-       Typetxt.clear();
-       updateButton.setDisable(true); 
-      
-        String foundID= PropertyIDtxt.getText();
-        
-        if(foundID.isEmpty()){
-        displayMessage("Please Enter a ID!!");
-        }
-        else{
-            
-      if(foundID.isEmpty()){
-        displayMessage("Please Enter a ID!!");
-        }
-        else{
-            
-     if(isInteger(foundID)){
-       int id = Integer.parseInt(foundID);
-        results = model.getPropertiesByID(id);
 
-        numberOfEntries = results.size();
-      if ( numberOfEntries != 0 ) {
-       listview.setItems(PropertyList);
-       listview.setCellFactory(param -> new PropertyListID());   
-       getPropertiesbyID(id);   
-       listview.getSelectionModel().selectedItemProperty().addListener(
-        (var observableValue, var oldValue, var newValue) -> {
-        if (newValue != null) {
-            updateProperty = newValue;
-            setfields(updateProperty);
-            updateButton.setDisable(false);
-              
-    }
+    @FXML
+    private void FindPropertyByID(ActionEvent event) {
+        StreetNumbertxt.clear();
+        StreetNametxt.clear();
+        Suburbtxt.clear();
+        Typetxt.clear();
+        updateButton.setDisable(true);
+
+        String foundID = PropertyIDtxt.getText();
+
+        if (foundID.isEmpty()) {
+            displayMessage("Please Enter a ID!!");
+        } else {
+
+            if (isInteger(foundID)) {
+                int id = Integer.parseInt(foundID);
+                results = model.getPropertiesByID(id);
+
+                numberOfEntries = results.size();
+                if (numberOfEntries != 0) {
+                    listview.setItems(PropertyList);
+                    listview.setCellFactory(param -> new PropertyListID());
+                    getPropertiesbyID(id);
+                    listview.getSelectionModel().selectedItemProperty().addListener(
+                            (var observableValue, var oldValue, var newValue) -> {
+                                if (newValue != null) {
+                                    updateProperty = newValue;
+                                    setfields(updateProperty);
+                                    updateButton.setDisable(false);
+
+                                }
+                            }
+                    );
+                } else {
+                    displayMessage("No entries found! Please try with different number.");
+                    PropertyIDtxt.clear();
+                }
+            } else {
+                displayMessage("Please enter integer!");
+                PropertyIDtxt.clear();
+            }
         }
-       );
-      }
-      
-     else{
-     displayMessage("ID should be Integer.");
-     }
-    }
-      }
-        }
-      }
-      
-public void displayMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
-
-@FXML
+    @FXML
     private void UpdateProperty() {
-        
-        
+
         printChoice();
         int PID = updateProperty.getCustomerID();
-        int streetNumber = Integer.parseInt(streetNumberField.getText());
+        int bathroomCount = 0;
+        int bedroomCount = 0;
+        int streetNumber = 0;
+        int parkingSpaces = 0;
+        if(!streetNumberField.getText().isEmpty()  && isInteger(streetNumberField.getText())){
+         streetNumber = Integer.parseInt(streetNumberField.getText());}
         String streetName = streetNameField.getText();
         String suburb = suburbField.getText();
         String state = stateChoiceBox.getValue().toString();
-        int bathroomCount = Integer.parseInt(bathroomsField.getText());
-        int bedroomCount = Integer.parseInt(bedroomsField.getText());
-        int parkingSpaces = Integer.parseInt(parkingSpacesField.getText());
+        if(!bathroomsField.getText().isEmpty() &&  isInteger(bathroomsField.getText())){
+         bathroomCount = Integer.parseInt(bathroomsField.getText());}
+        if(!bedroomsField.getText().isEmpty() && isInteger(bedroomsField.getText())){
+         bedroomCount = Integer.parseInt(bedroomsField.getText());}
+        if(!parkingSpacesField.getText().isEmpty() && isInteger(parkingSpacesField.getText())){
+         parkingSpaces = Integer.parseInt(parkingSpacesField.getText());}
         String propertyType = propertyTypeChoiceBox.getValue().toString();
         String managingAgent = managingAgentField.getText();
         String builtDate = builtDateField.getText();
         System.out.println(streetName);
-        if (customerIdField.getText().isEmpty()) {
+        if (Integer.parseInt(customerIdField.getText()) == 0) {
             if (streetNumberField.getText().isEmpty() || streetNameField.getText().isEmpty() || suburbField.getText().isEmpty() || bathroomsField.getText().isEmpty() || bedroomsField.getText().isEmpty() || parkingSpacesField.getText().isEmpty() || managingAgentField.getText().isEmpty() || builtDateField.getText().isEmpty()) {
                 displayMessage("Please Fill-up every details!");
-            } else if (!isInteger(bathroomsField.getText()) || !isInteger(bedroomsField.getText()) || !isInteger(parkingSpacesField.getText())) {
+            } else if (!isInteger(streetNumberField.getText()) || !isInteger(bathroomsField.getText()) || !isInteger(bedroomsField.getText()) || !isInteger(parkingSpacesField.getText())) {
                 displayMessage("Please check the formats of input!");
             } else {
                 model.updatePropertyNoId(PID, streetName, streetNumber, suburb, state, builtDate, bathroomCount, bedroomCount, parkingSpaces, managingAgent, propertyType);
-                displayMessage("Property created successful!");
+                displayMessage("Property Updated successful!");
             }
         } else {
             int customerId = Integer.parseInt(customerIdField.getText());
@@ -204,24 +199,24 @@ public void displayMessage(String message) {
                 displayMessage("Please enter valid CustomerID!");
             } else {
                 model.updateProperty(PID, streetNameField.getText(), streetNumber, suburb, state, builtDate, bathroomCount, bedroomCount, parkingSpaces, managingAgent, propertyType, customerId);
-                displayMessage("Property created successful!");
+                displayMessage("Property Update successful!");
             }
 
         }
     }
- @FXML
+
+    @FXML
     private void goBack2() throws IOException {
         App.setRoot("SearchProperty");
     }
-    
-@FXML
+
+    @FXML
     private void updatePropertySwitch(ActionEvent event) throws IOException {
         searchPropertyPane.setVisible(false);
         updatePropertyPane.setVisible(true);
-        
-        
+
     }
-    
+
     @FXML
     private void searchProperty() {
         System.out.println("Called searchProperty");
@@ -241,126 +236,136 @@ public void displayMessage(String message) {
         if (!StreetNametxt.getText().isEmpty()) {
             for (int i = 0; i < allProperties.size(); i++) {
                 if (!allProperties.get(i).getStreetName().equals(foundName)) {
-                  System.out.println("Removing: "+allProperties.get(i).getStreetName());
-                  allProperties.remove(i);
-                  i--;
+                    System.out.println("Removing: " + allProperties.get(i).getStreetName());
+                    allProperties.remove(i);
+                    i--;
                 }
             }
         }
-            if (!StreetNumbertxt.getText().isEmpty()) {
+        if (!StreetNumbertxt.getText().isEmpty()) {
             for (int i = 0; i < allProperties.size(); i++) {
                 if (allProperties.get(i).getStreetNumber() != foundNumber) {
-                  System.out.println("Removing: "+allProperties.get(i).getStreetNumber());
-                  allProperties.remove(i);
-                  i--;
+                    System.out.println("Removing: " + allProperties.get(i).getStreetNumber());
+                    allProperties.remove(i);
+                    i--;
                 }
             }
-            }
-            if (!Suburb.isEmpty()) {
-             for (int i = 0; i < allProperties.size(); i++) {
+        }
+        if (!Suburb.isEmpty()) {
+            for (int i = 0; i < allProperties.size(); i++) {
                 if (!allProperties.get(i).getSuburb().equals(Suburb)) {
-                  System.out.println("Removing: "+allProperties.get(i).getSuburb());
-                  allProperties.remove(i);
-                  i--;
+                    System.out.println("Removing: " + allProperties.get(i).getSuburb());
+                    allProperties.remove(i);
+                    i--;
                 }
             }
-            }
-            if (!Type.isEmpty()) {
-             for (int i = 0; i < allProperties.size(); i++) {
+        }
+        if (!Type.isEmpty()) {
+            for (int i = 0; i < allProperties.size(); i++) {
                 if (!allProperties.get(i).getPropertyType().equals(Type)) {
-                  System.out.println("Removing: "+allProperties.get(i).getPropertyType());
-                  allProperties.remove(i);
-                  i--;
+                    System.out.println("Removing: " + allProperties.get(i).getPropertyType());
+                    allProperties.remove(i);
+                    i--;
                 }
             }
-            }
-             if(!allProperties.isEmpty()){
-                System.out.println(allProperties);
-             }
-             else{
-                 
-                 displayMessage("No Property Found");
-                 clearfields();
-             }
-                numberOfEntries = allProperties.size();
-                if (numberOfEntries != 0) {
-                    listview.setItems(PropertyList);
-                    listview.setCellFactory(param -> new PropertyListID());
-                    getProperties(allProperties);
-                    listview.getSelectionModel().selectedItemProperty().addListener(
-                            (var observableValue, var oldValue, var newValue) -> {
-                                if (newValue != null) {
-                                    updateProperty = newValue;
-                                    setfields(updateProperty);
-                                    updateButton.setDisable(false);
+        }
+        if (!allProperties.isEmpty()) {
+            System.out.println(allProperties);
+        } else {
 
-                                }
-                            }
-                    );
-                }
-            } 
-public void setfields(Property newValue){
-          streetNumberField.setText("" + newValue.getStreetNumber());
-          streetNameField.setText(newValue.getStreetName());
-          suburbField.setText(newValue.getSuburb());
-          stateChoiceBox.setValue(newValue.getState());
-          propertyTypeChoiceBox.setValue(newValue.getPropertyType());
-          bathroomsField.setText(""+newValue.getBathroomCount());
-          bedroomsField.setText(""+newValue.getBedroomCount());
-          parkingSpacesField.setText(""+newValue.getParkingSpaces());
-          managingAgentField.setText(newValue.PropertyManager());
-          builtDateField.setText(""+newValue.getBuiltDate());
-          customerIdField.setText(""+newValue.getCustomerID());       
-   }
-    
- public static boolean isInteger(String a) {
-        try {
-           
-            Integer.parseInt(a);
-           return true;
-        } catch (NumberFormatException e) {
-            return false; 
+            displayMessage("No Property Found");
+            clearfields();
+        }
+        numberOfEntries = allProperties.size();
+        if (numberOfEntries != 0) {
+            listview.setItems(PropertyList);
+            listview.setCellFactory(param -> new PropertyListID());
+            getProperties(allProperties);
+            listview.getSelectionModel().selectedItemProperty().addListener(
+                    (var observableValue, var oldValue, var newValue) -> {
+                        if (newValue != null) {
+                            updateProperty = newValue;
+                            setfields(updateProperty);
+                            updateButton.setDisable(false);
+
+                        }
+                    }
+            );
         }
     }
- 
- public void getPropertiesbyID(int a){
-   
-   PropertyList.setAll(model.getPropertiesByID(a));
-   
-   }
- public void getProperties(List <Property> a){
-   
-   PropertyList.setAll(a);
-   
-   }
- public void clearfields(){
- 
-       StreetNumbertxt.clear();
-       StreetNametxt.clear();
-       Suburbtxt.clear();
-       Typetxt.clear();
-       PropertyIDtxt.clear();
- }
- 
- 
- @FXML
+
+    public void setfields(Property newValue) {
+        streetNumberField.setText("" + newValue.getStreetNumber());
+        streetNameField.setText(newValue.getStreetName());
+        suburbField.setText(newValue.getSuburb());
+        stateChoiceBox.setValue(Property.State.valueOf(newValue.getState()));
+        propertyTypeChoiceBox.setValue(Property.PropertyType.valueOf(newValue.getPropertyType()));
+        bathroomsField.setText("" + newValue.getBathroomCount());
+        bedroomsField.setText("" + newValue.getBedroomCount());
+        parkingSpacesField.setText("" + newValue.getParkingSpaces());
+        managingAgentField.setText(newValue.PropertyManager());
+        builtDateField.setText("" + newValue.getBuiltDate());
+        customerIdField.setText("" + newValue.getCustomerID());
+    }
+
+    public void displayMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public static boolean isInteger(String a) {
+        try {
+
+            Integer.parseInt(a);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public void getPropertiesbyID(int a) {
+
+        PropertyList.setAll(model.getPropertiesByID(a));
+
+    }
+
+    public void getProperties(List<Property> a) {
+
+        PropertyList.setAll(a);
+
+    }
+
+    public void clearfields() {
+
+        StreetNumbertxt.clear();
+        StreetNametxt.clear();
+        Suburbtxt.clear();
+        Typetxt.clear();
+        PropertyIDtxt.clear();
+    }
+
     private void printChoice() {
         System.out.println(propertyTypeChoiceBox.getValue());
         System.out.println(stateChoiceBox.getValue());
     }
-    
+
     private static class PropertyListID extends ListCell<Property> {
+
         @Override
         protected void updateItem(Property property, boolean empty) {
             super.updateItem(property, empty);
             if (empty || property == null) {
                 setText(null);
             } else {
-                
-                setText("PropertyID:"+property.getId() + ", StreetNumber:" + property.getStreetNumber()+ ", StreetName:" + property.getStreetName()+", Suburb:"+property.getSuburb()+ ",State:" +property.getState()+", Bathrooms:"+property.getBathroomCount()+", Bedrooms::"+property.getBedroomCount()+", PropertyType:"+property.getPropertyType()+", PropertyManager:"+property.PropertyManager()+", Customer:"+ property.getCustomerID()+", BuiltDate:"+ property.getBuiltDate());
+
+                setText("PropertyID:" + property.getId() + ", StreetNumber:" + property.getStreetNumber() + ", StreetName:" + property.getStreetName() + ", Suburb:" + property.getSuburb() + ", State:" + property.getState() + ", Bathrooms:" + property.getBathroomCount() + ", Bedrooms::" + property.getBedroomCount() + ", PropertyType:" + property.getPropertyType() + ", PropertyManager:" + property.PropertyManager() + ", Customer:" + property.getCustomerID() + ", BuiltDate:" + property.getBuiltDate());
             }
         }
-   }
+    }
     
+
 
 }

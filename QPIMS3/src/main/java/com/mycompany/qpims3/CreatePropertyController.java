@@ -11,6 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class CreatePropertyController{
 
@@ -39,6 +42,7 @@ public class CreatePropertyController{
     private TextField builtDateField;
 
     PropertyModel model=new PropertyModel();
+    String Dateformat= "yyyy-MM-dd";
     
     @FXML
     private void initialize() {
@@ -62,13 +66,21 @@ public class CreatePropertyController{
     @FXML
     private void createProperty() {
         printChoice();
-        int streetNumber = Integer.parseInt(streetNumberField.getText());
+        int bathroomCount = 0;
+        int bedroomCount = 0;
+        int streetNumber = 0;
+        int parkingSpaces = 0;
+        if(!streetNumberField.getText().isEmpty()  && isInteger(streetNumberField.getText())){
+         streetNumber = Integer.parseInt(streetNumberField.getText());}
         String streetName = streetNameField.getText();
         String suburb = suburbField.getText();
         String state = stateChoiceBox.getValue().toString();
-        int bathroomCount = Integer.parseInt(bathroomsField.getText());
-        int bedroomCount = Integer.parseInt(bedroomsField.getText());
-        int parkingSpaces = Integer.parseInt(parkingSpacesField.getText());
+        if(!bathroomsField.getText().isEmpty() &&  isInteger(bathroomsField.getText())){
+         bathroomCount = Integer.parseInt(bathroomsField.getText());}
+        if(!bedroomsField.getText().isEmpty() && isInteger(bedroomsField.getText())){
+         bedroomCount = Integer.parseInt(bedroomsField.getText());}
+        if(!parkingSpacesField.getText().isEmpty() && isInteger(parkingSpacesField.getText())){
+         parkingSpaces = Integer.parseInt(parkingSpacesField.getText());}
         String propertyType = propertyTypeChoiceBox.getValue().toString();
         String managingAgent = managingAgentField.getText();
         String builtDate = builtDateField.getText();
@@ -76,7 +88,7 @@ public class CreatePropertyController{
         if (customerIdField.getText().isEmpty()) {
             if (streetNumberField.getText().isEmpty() || streetNameField.getText().isEmpty() || suburbField.getText().isEmpty() || bathroomsField.getText().isEmpty() || bedroomsField.getText().isEmpty() || parkingSpacesField.getText().isEmpty() || managingAgentField.getText().isEmpty() || builtDateField.getText().isEmpty()) {
                 displayMessage("Please Fill-up every details!");
-            } else if (!isInteger(bathroomsField.getText()) || !isInteger(bedroomsField.getText()) || !isInteger(parkingSpacesField.getText())) {
+            } else if (!isInteger(streetNumberField.getText()) || !isInteger(bathroomsField.getText()) || !isInteger(bedroomsField.getText()) || !isInteger(parkingSpacesField.getText()) || !datevalidation(builtDate,Dateformat)) {
                 displayMessage("Please check the formats of input!");
             } else {
                 model.addPropertyNoId(streetName, streetNumber, suburb, state, builtDate, bathroomCount, bedroomCount, parkingSpaces, managingAgent, propertyType);
@@ -112,6 +124,21 @@ public class CreatePropertyController{
         } catch (NumberFormatException e) {
             return false; 
         }
+    }
+       
+    public static boolean datevalidation(String date, String format){
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
+    
+    try{
+    LocalDate.parse(date, dateFormatter);
+            return true;
+    }
+    catch(DateTimeParseException e){
+        return false;
+    }
+     
+        
+    
     }
     
       public void displayMessage(String message) {
