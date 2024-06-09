@@ -14,6 +14,10 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    
+    // Set these to whatever your mySQL login is
+    public static String rootUserName = "root";
+    public static String rootPassword = "bqqolyrm";
 
     @Override
     public void start(Stage stage) throws IOException {

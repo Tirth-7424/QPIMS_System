@@ -1,6 +1,9 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ The Job class is used to represent service/maintenance jobs. It contains two
+constructors. A regular constructor, and a constructor without a completion 
+date. We decided that the completion date should be optional because
+the completion date may not necessarily be known when the job entry is
+created.
  */
 package com.mycompany.qpims3;
 import java.time.LocalDate;
@@ -16,6 +19,7 @@ public class Job {
     double charge;
     String serviceStaffName;
     String description;
+    // Enums are public so they can be used to populate choiceboxes in GUI
     public enum JobType {
         Cleaning,
         Extermination,
@@ -24,7 +28,6 @@ public class Job {
         Structural,
         Gardening
     }
-    
     public enum JobStatus {
         Planned,
         Ongoing,
@@ -35,6 +38,7 @@ public class Job {
     private JobType jobType = JobType.Cleaning;
     private JobStatus jobStatus = JobStatus.Planned;
     
+    // Regular constructor
     public Job(int jobId, int propertyId, String bookingDate, String completionDate, double charge, String serviceStaffName, String description, String jobType, String jobStatus){
         this.jobId = jobId;
         this.propertyId = propertyId;
@@ -47,6 +51,7 @@ public class Job {
         this.jobStatus = JobStatus.valueOf(jobStatus);
     }
     
+    // Constructor without completion date
     public Job(int jobId, int propertyId, String bookingDate, double charge, String serviceStaffName, String description, String jobType, String jobStatus){
         this.jobId = jobId;
         this.propertyId = propertyId;
