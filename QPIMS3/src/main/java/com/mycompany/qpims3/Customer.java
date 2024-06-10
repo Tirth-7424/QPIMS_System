@@ -9,23 +9,28 @@ package com.mycompany.qpims3;
  * @author tirth
  */
 public class Customer {
-   private int CustomerID;
+
+    // Customer class will contain following fields:
+    private int CustomerID;
     private String Fname;
     private String Lname;
     private String Address;
     private int PhoneNumber;
 
     public Customer() {
+        // Empty constructor
     }
 
     public Customer(int CustomerID, String Fname, String Lname, String Address, int PhoneNumber) {
+        // Constructor
         this.CustomerID = CustomerID;
         this.Fname = Fname;
         this.Lname = Lname;
         this.Address = Address;
         this.PhoneNumber = PhoneNumber;
     }
-    
+
+    // Below are the setter and getter methods.
     public void setCustomerID(int CustomerID) {
         this.CustomerID = CustomerID;
     }
@@ -69,5 +74,5 @@ public class Customer {
     public String toStringname() {
         return Fname; // Display customer name in ComboBox
     }
-    
+
 }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.qpims3;
+// Below are the imports help in fetching library and thier elements to be used in application.
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +17,7 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
@@ -23,7 +25,7 @@ import javafx.scene.control.TextField;
  */
 public class LoginFXMLController implements Initializable {
 
-
+// Below are the FXML elements used in developing the Login page.
     @FXML
     private Button loginbtn;
     @FXML
@@ -37,58 +39,62 @@ public class LoginFXMLController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    CustomerModel model=new CustomerModel();
-    
+    CustomerModel model = new CustomerModel();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-    
 
+    }
+
+// login function which will check the user credentials and login to the mainmenu page. 
     @FXML
-    public void login(){
-    String loginid=LoginIDtxt.getText();
-    String password=passwordtxt.getText();
+    public void login() {
+        String loginid = LoginIDtxt.getText(); // Storing login ID from text field to suitable variable. 
+        String password = passwordtxt.getText(); // Storing paassword from text field to suitable variable. 
 
-        boolean b=model.checkLogin(loginid, password);
-    
-    if(b){
-        try {
-            App.setRoot("MainMenuFXML");
-        } catch (IOException ex) {
-            Logger.getLogger(LoginFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        boolean b = model.checkLogin(loginid, password); // Calling the checkLogin function from model which will return the boolean signifying the presence of login credentials.
+
+        if (b) {
+            try { // If boolean is true than the scene will be set to MainMenuFXML.
+                App.setRoot("MainMenuFXML");
+            } catch (IOException ex) { // On error
+                Logger.getLogger(LoginFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else { // if the boolean is not true, the following pop-up message will be displayed.
+            displayMessage("Details not found, Please re-enter or register!");
         }
+
     }
-    else{
-    displayMessage("Details not found, Please re-enter or register!");
-    }
-    
-    }
+
     @FXML
     private void registration(ActionEvent event) throws IOException {
-        App.setRoot("RegisterFXML");     
-    }    
-    
-    @FXML
-    public void exit(){
-    System.exit(0);
+        // Change the scene to RegisterFXML. 
+        App.setRoot("RegisterFXML");
     }
-    
-         public void displayMessage(String message) {
+
+    @FXML
+    public void exit() {
+        // Exit the system.
+        System.exit(0);
+    }
+
+    public void displayMessage(String message) {
+        // Function developed for pop-up display custamized messages. 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
+
     public static boolean isInteger(String a) {
+        // Function to check the format of input integer. 
         try {
-           
+
             Integer.parseInt(a);
-           return true;
+            return true;
         } catch (NumberFormatException e) {
-            return false; 
+            return false;
         }
     }
 }

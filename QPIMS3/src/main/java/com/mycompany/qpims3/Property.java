@@ -10,13 +10,16 @@ package com.mycompany.qpims3;
  */
 import java.time.LocalDate;
 
-
 public class Property {
-    int id;
-    int streetNumber;
-    String streetName;
-    String suburb;
-    public enum State{
+
+    // Property class and thier associated attributes.
+    int id; // Signifies Property ID.
+    int streetNumber; // Signifies Property streetNumber.
+    String streetName; // Signifies Property streetName.
+    String suburb; // Signifies suburb of the Property.
+
+    public enum State {
+        // enum variables for states in Australia, this enum variables will be set in the choice box to make it avaliable for user to choose from.
         QLD,
         NSW,
         VIC,
@@ -28,20 +31,23 @@ public class Property {
     int bedroomCount;
     int bathroomCount;
     int parkingSpaces;
-    public enum PropertyType{
+
+    public enum PropertyType {
+        // enum variables for Types of property, this enum variables will be set in the choice box to make it avaliable for user to choose from.
         House,
         Apartment,
         Unit,
         Land
     }
-    String managingAgent;
-    private LocalDate builtDate;
-    int customerId;
-    
-    private PropertyType propertyType = PropertyType.House;
-    private State state = State.QLD;
+    String managingAgent; // Signifies the managing agent.
+    private LocalDate builtDate; // Signifies the builtDate.
+    int customerId; // Signifies the Customer Id associated with property.
 
-    public Property(int id, int streetNumber, String streetName, String suburb, String state,int bedroomCount, int bathroomCount, int parkingSpaces, String propertyType, String managingAgent, String builtDate, int customerId) {
+    private PropertyType propertyType = PropertyType.House; // initialization of enum object named propertyType
+    private State state = State.QLD;// initialization of enum object named state.
+
+    public Property(int id, int streetNumber, String streetName, String suburb, String state, int bedroomCount, int bathroomCount, int parkingSpaces, String propertyType, String managingAgent, String builtDate, int customerId) {
+        // Property constructor.
         this.id = id;
         this.streetNumber = streetNumber;
         this.streetName = streetName;
@@ -55,20 +61,20 @@ public class Property {
         this.builtDate = LocalDate.parse(builtDate);
         this.customerId = customerId;
     }
+// Below are the required setter and getter methods.
 
-    public int getId(){
+    public int getId() {
         return id;
     }
-    
-    public String getStreetName(){
-    return streetName;
+
+    public String getStreetName() {
+        return streetName;
     }
-    
-    public String PropertyManager(){
-    return managingAgent;
+
+    public String PropertyManager() {
+        return managingAgent;
     }
-    
-    
+
     public int getStreetNumber() {
         return streetNumber;
     }
@@ -76,7 +82,7 @@ public class Property {
     public String getSuburb() {
         return suburb;
     }
-    
+
     public String getState() {
         return state.toString();
     }
@@ -89,21 +95,20 @@ public class Property {
         return bathroomCount;
     }
 
-
     public String getPropertyType() {
         return propertyType.toString();
     }
-    public int getParkingSpaces(){
-    return parkingSpaces;
+
+    public int getParkingSpaces() {
+        return parkingSpaces;
     }
-    public LocalDate getBuiltDate(){
-    return builtDate;
+
+    public LocalDate getBuiltDate() {
+        return builtDate;
     }
-    public int getCustomerID(){
-    return customerId;
+
+    public int getCustomerID() {
+        return customerId;
     }
-    
-    
-    
 
 }

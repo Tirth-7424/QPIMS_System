@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.qpims3;
+// Below are the imports help in fetching library and thier elements to be used in application.
 
 import com.mycompany.qpims3.CustomerModel;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
@@ -24,7 +26,7 @@ import javafx.scene.control.TextField;
  */
 public class RegisterFXMLController implements Initializable {
 
-
+// Below are the FXML elements used in the development of Register page.
     @FXML
     private Button registerbtn;
     @FXML
@@ -42,76 +44,81 @@ public class RegisterFXMLController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
-    CustomerModel model=new CustomerModel();
+
+    CustomerModel model = new CustomerModel();// initialization of Customer model.
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
-    @FXML
-    public void adduser(ActionEvent event){
-    
-    if(LoginIDtxt.getText().isEmpty() || passwordtxt.getText().isEmpty() || emailtxt.getText().isEmpty() || Fnametxt.getText().isEmpty() || Lnametxt.getText().isEmpty() ){
-    displayMessage("Please enter the login ID in integer format or check each and every field!!");
-    clearfields();
-    }
-    else{
-    String LoginID = LoginIDtxt.getText();
-    String Password = passwordtxt.getText();
-    String email = emailtxt.getText();
-    String Fname = Fnametxt.getText();
-    String Lname = Lnametxt.getText();
-    
-    int r=model.addUsers(LoginID, Password, email, Fname, Lname);
-    if (r>0)
-        {
-         displayMessage("Registration successful");
 
-         clearfields();
+    }
+
+    @FXML
+    public void adduser(ActionEvent event) {
+        // Function to add new user to the database.
+
+        // Below are the data validation steps.
+        if (LoginIDtxt.getText().isEmpty() || passwordtxt.getText().isEmpty() || emailtxt.getText().isEmpty() || Fnametxt.getText().isEmpty() || Lnametxt.getText().isEmpty()) {
+            displayMessage("Please enter the login ID in integer format or check each and every field!!");
+            clearfields();
+        } else {
+            // If the data is valid following lines of code will be executed.
+            String LoginID = LoginIDtxt.getText();
+            String Password = passwordtxt.getText();
+            String email = emailtxt.getText();
+            String Fname = Fnametxt.getText();
+            String Lname = Lnametxt.getText();
+            // Executing query after setting parameters.
+            int r = model.addUsers(LoginID, Password, email, Fname, Lname);
+            if (r > 0) {
+                // If the request is proccessed, the following pop-up will displayed.
+                displayMessage("Registration successful");
+
+                clearfields();
+            } else {
+                // if the request is denied, the following pop-up will be displayed.
+                displayMessage("Registration failed- enter both user name and valid password");
+            }
+
         }
-        else
-       {
 
-         displayMessage("Registration failed- enter both user name and valid password");
-       }
-    
     }
-    
-    
-    }
-    
+
     @FXML
-    public void cancel(){
+    public void cancel() {
+        // Changing the scene back to LoginFXML.
         try {
             App.setRoot("LoginFXML");
         } catch (IOException ex) {
             Logger.getLogger(RegisterFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-          public void displayMessage(String message) {
+
+    public void displayMessage(String message) {
+        // Function for customized pop-up message.
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-          
-          public void clearfields(){
-          LoginIDtxt.clear();
-          passwordtxt.clear();
-          Fnametxt.clear();
-          emailtxt.clear();
-          Lnametxt.clear();
-          }
-    
-       public static boolean isInteger(String a) {
+
+    public void clearfields() {
+        // Function to clear text fields. 
+        LoginIDtxt.clear();
+        passwordtxt.clear();
+        Fnametxt.clear();
+        emailtxt.clear();
+        Lnametxt.clear();
+    }
+
+    public static boolean isInteger(String a) {
+        // Function to validate the integer input.
         try {
-           
+
             Integer.parseInt(a);
-           return true;
+            return true;
         } catch (NumberFormatException e) {
-            return false; 
+            return false;
         }
     }
 }
