@@ -93,7 +93,7 @@ public class CreateJobController {
 
                         if (isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()) {
                             jm.addJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId);
-                            displayMessage("Job created successfully!\nJob ID: "+jm.getLastId());
+                            displayMessage("Job created successfully!");
                             clearfields();
                         } else {
                             displayMessage("Please make sure the format of inputs and provide every data!");

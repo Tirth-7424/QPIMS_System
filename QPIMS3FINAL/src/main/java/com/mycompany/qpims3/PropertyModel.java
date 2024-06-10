@@ -94,6 +94,7 @@ public class PropertyModel {
                     + "SET StreetName = ?, StreetNumber = ?, Suburb = ?, State = ?, BuiltYear = ?, Bathrooms = ?, Bedrooms = ?, CarParks = ?, PropertyManager = ?, PropertyType = ?, Customer_CustomerID = ? "
                     + // Notice the space before WHERE
                     "WHERE PropertyID = ?");
+            getLastId = connection.prepareStatement("SELECT * FROM property ORDER BY PropertyID DESC LIMIT 1");
 
         } // end try
         catch (SQLException sqlException) {

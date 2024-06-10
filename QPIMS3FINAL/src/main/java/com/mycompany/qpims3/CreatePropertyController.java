@@ -118,7 +118,7 @@ public class CreatePropertyController {
             } else {
                 // If all the data validation is passed then this statement will be executed for creating a property.  
                 model.addPropertyNoId(streetName, streetNumber, suburb, state, builtDate, bathroomCount, bedroomCount, parkingSpaces, managingAgent, propertyType);
-                displayMessage("Property created successful!");
+                displayMessage("Property created successful!\nProperty ID: "+model.getLastId());
             }
         } else {
             // if there is a Customer existing and related to the property, this conditions will be validated. 

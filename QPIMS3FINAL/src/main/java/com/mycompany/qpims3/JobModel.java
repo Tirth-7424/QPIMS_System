@@ -71,6 +71,7 @@ public class JobModel {
                     + "FROM repairjob "
                     + "WHERE JobType = ? AND JobStatus = 'Completed' "
             );
+            getLastId = connection.prepareStatement("SELECT * FROM repairjob ORDER BY JobID DESC LIMIT 1");
 
         } // end try
         catch (SQLException sqlException) {
