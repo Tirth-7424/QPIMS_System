@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="700.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qpims3.AboutController">
+    <children>
+      <AnchorPane prefHeight="686.0" prefWidth="460.0">
+         <children>
+              <Label text="About QPIMS">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+              <Button layoutY="590.0" onAction="#goBack" text="Go Back" />
+            <Text layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Queensland Property Information Management System (QPIMS) is a software system designed to efficiently collect and manage data about customers, properties under management, and maintenance services or repair jobs. The main view or interface comprises four distinct views: Customers, Properties, Repair Jobs, and Manager Report" wrappingWidth="560.0" />
+            <Text layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In the customers view, users can search for customers by phone number or lastname. Users can update an existing customer record by selecting a customer entry and clicking 'Update'. Users can aslo create new customer records by clicking 'New User'." wrappingWidth="560.0" />
+            <Label layoutY="150.0" text="Customers View">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Text layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In the properties view, users can search for existing properties by entering a full or partial address. Users can update an existing property record by selecting a property entry and clicking 'Update Property'. From here, users can change the property details, including the associated customer id. Users can aslo create new property records by clicking 'New Property." wrappingWidth="560.0" />
+            <Label layoutY="240.0" text="Properties View">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Text layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In the Jobs view, users can search for existing maintenance/repair service records by property id or job id. Users can update an existing job record by selecting  a job entry and clicking 'Update Job'. From here, users can can change the job details, as well as update the job statsu and completion date. Users can aslo create a new job record by clicking 'New Job'" wrappingWidth="560.0" />
+            <Label layoutY="350.0" text="Jobs View">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutY="450.0" text="Manager Report View">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Text layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The manager report view shows useful statistical information is human-readable format. A bar graph shows the distribution of job types across all properties. Additionally, the minumum, maximum, and average charges for service jobs is displayed" wrappingWidth="560.0" />
+            <Label layoutY="50.0" text="Overview">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
