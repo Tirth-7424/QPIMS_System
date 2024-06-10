@@ -4,6 +4,10 @@ JobSearch.fxml contains the GUI for searching jobs, as well as updating jobs.
 When searching jobs, the update job view is hidden. When updating, the 
 searching page is hidden. This is done so that state can be more easily 
 maintained between searching and updating.
+
+The JobSearchController class takes user input and calls appropriate JobModel
+methods to get job entries from the SQl database, as well as to update existing
+job entries.
  */
 package com.mycompany.qpims3;
 
@@ -281,7 +285,7 @@ public class JobSearchController implements Initializable {
         if (!propertyIdField.getText().isEmpty()) {
             if (jm.findProperty(propertyId)) {
                 if (!bookingDatetxt.getText().isEmpty() && dateValidation(bookingDate, Dateformat)) {
-                    // Completion date is optional, so this check ensures that jobs can be updated without erros
+                    // Completion date is optional, so this check ensures that jobs can be updated without errors
                     if (!completionDatetxt.getText().isEmpty() && dateValidation(completionDatetxt.getText(), Dateformat)) {
                         if (isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()) {
                             jm.updateJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId, JobId);

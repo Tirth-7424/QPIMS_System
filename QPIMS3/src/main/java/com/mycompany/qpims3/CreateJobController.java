@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+The CreateJobController class is used by CreateJob.fxml. It is responsible for
+taking user input and calling appropriate JobModel methodsto create new Job
+entries.
  */
 package com.mycompany.qpims3;
 
@@ -37,12 +38,11 @@ public class CreateJobController {
     private TextField serviceStaffField;
 
     JobModel jm = new JobModel();
-    String Dateformat= "yyyy-MM-dd";
+    String Dateformat = "yyyy-MM-dd";
 
-    
     @FXML
     private void initialize() {
-
+        // Populate choiceboxes with job type and job status enums declared in Job class
         jobTypeChoiceBox.getItems().setAll(Job.JobType.values());
         jobTypeChoiceBox.setValue(Job.JobType.Cleaning);
 
@@ -51,14 +51,7 @@ public class CreateJobController {
     }
 
     @FXML
-    private void printChoice() {
-        System.out.println(jobTypeChoiceBox.getValue());
-        System.out.println(jobStatusChoiceBox.getValue());
-    }
-
-    @FXML
     private void createJob() {
-        printChoice();
         int propertyId = 0;
         double charge = 0.0;
         String completionDate = null;
@@ -69,11 +62,11 @@ public class CreateJobController {
         if ((!chargeField.getText().isEmpty() && isDouble(chargeField.getText()))) {
             charge = Double.parseDouble(chargeField.getText());
         }
-        
-       if (!bookingDatetxt.getText().isEmpty()) {
-           bookingDate = bookingDatetxt.getText();
+
+        if (!bookingDatetxt.getText().isEmpty()) {
+            bookingDate = bookingDatetxt.getText();
         }
-        
+
         if (!completionDatetxt.getText().isEmpty()) {
             completionDate = completionDatetxt.getText();
         }
@@ -86,30 +79,28 @@ public class CreateJobController {
         if (!propertyIdField.getText().isEmpty()) {
             if (jm.findProperty(propertyId)) {
                 if (!bookingDatetxt.getText().isEmpty() && dateValidation(bookingDate, Dateformat)) {
-
+                    // Completion date is optional, so this check ensures that jobs can be updated without errors
                     if (!completionDatetxt.getText().isEmpty() && dateValidation(completionDatetxt.getText(), Dateformat)) {
-                        if(isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()){
-                        jm.addJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId);
-                        displayMessage("Job created successfully!");
-                        clearfields();
-                        }else{
-                          displayMessage("Please make sure the format of inputs and provide every data!");  
+                        if (isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()) {
+                            jm.addJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId);
+                            displayMessage("Job created successfully!");
+                            clearfields();
+                        } else {
+                            displayMessage("Please make sure the format of inputs and provide every data!");
                         }
 
                     } else {
-                        
-                        if(isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()){
-                        jm.addJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId);
-                        displayMessage("Job created successfully!");
-                        clearfields();
-                        } 
-                        else{
-                        displayMessage("Please make sure the format of inputs and provide every data!"); } 
-                        
 
-                    
+                        if (isDouble(chargeField.getText()) && !serviceStaffName.isEmpty() && !description.isEmpty()) {
+                            jm.addJob(description, bookingDate, completionDate, charge, serviceStaffName, jobType, jobStatus, propertyId);
+                            displayMessage("Job created successfully!");
+                            clearfields();
+                        } else {
+                            displayMessage("Please make sure the format of inputs and provide every data!");
+                        }
 
-                } }else {
+                    }
+                } else {
                     displayMessage("Please check Start Date format and make sure it is provided!");
                 }
             } else {
@@ -120,7 +111,6 @@ public class CreateJobController {
         }
 
     }
-    
 
     @FXML
     private void goBack() throws IOException {
@@ -138,9 +128,9 @@ public class CreateJobController {
     }
 
     public static boolean isDouble(String a) {
-        
-        if(a ==null || a.trim().isEmpty()){
-        return false;
+
+        if (a == null || a.trim().isEmpty()) {
+            return false;
         }
         try {
 
@@ -162,15 +152,15 @@ public class CreateJobController {
         }
     }
 
-    public void clearfields(){
-    bookingDatetxt.clear();
-    completionDatetxt.clear();
-    chargeField.clear();
-    descriptionField.clear();
-    propertyIdField.clear();
-    serviceStaffField.clear();
+    public void clearfields() {
+        bookingDatetxt.clear();
+        completionDatetxt.clear();
+        chargeField.clear();
+        descriptionField.clear();
+        propertyIdField.clear();
+        serviceStaffField.clear();
     }
-    
+
     public void displayMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
